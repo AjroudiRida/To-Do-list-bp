@@ -63,6 +63,53 @@ const removeTask = (localStorage) => {
   });
 };
 
+const edit = (localStorage) => {
+  const taskContainer = document.querySelector('.task-container');
+  const tasks = taskContainer.querySelectorAll('.task');
+  const data = JSON.parse(localStorage.getItem('taskList'));
+  tasks.forEach(() => {
+    data.forEach((tsk) => {
+      tsk.description = 'updated description';
+    });
+    localStorage.setItem('taskList', JSON.stringify(data));
+    display(localStorage);
+  });
+};
+
+const statusUpdate = () => {
+  const taskContainer = document.querySelector('.task-container');
+  const tasks = taskContainer.querySelectorAll('.task');
+  const data = JSON.parse(localStorage.getItem('taskList'));
+  tasks.forEach((task) => {
+    const check = task.querySelector('.checkbox');
+    if (check.checked) {
+      data.forEach((tsk) => {
+        tsk.completed = true;
+        localStorage.setItem('taskList', JSON.stringify(data));
+      });
+    } else {
+      data.forEach((tsk) => {
+        tsk.completed = false;
+        localStorage.setItem('taskList', JSON.stringify(data));
+      });
+    }
+  });
+};
+
+const clearAll = () => {
+  const taskContainer = document.querySelector('.task-container');
+  const tasks = taskContainer.querySelectorAll('.task');
+  let data = JSON.parse(localStorage.getItem('taskList'));
+  tasks.forEach((task) => {
+    const check = task.querySelector('.checkbox');
+    if (check.checked) {
+      data = [];
+      localStorage.setItem('taskList', JSON.stringify(data));
+      display(localStorage);
+    }
+  });
+};
+
 export {
-  addTask, removeTask,
+  addTask, removeTask, edit, statusUpdate, clearAll,
 };
